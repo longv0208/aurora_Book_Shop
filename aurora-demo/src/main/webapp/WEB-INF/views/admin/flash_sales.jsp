@@ -21,10 +21,10 @@
                         <div class="sb-nav-link-icon"><i class="bi bi-speedometer2"></i></div>Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">Quản lý</div>
-                    <a class="nav-link" href="<c:url value='/admin/shop'/>">
+                    <a class="nav-link" href="<c:url value='/admin/shops'/>">
                         <div class="sb-nav-link-icon"><i class="bi bi-shop"></i></div>Quản lý shop
                     </a>
-                    <a class="nav-link" href="productManagement.html">
+                    <a class="nav-link" href="/admin/products">
                         <div class="sb-nav-link-icon"><i class="bi bi-box-seam"></i></div>Sản phẩm
                     </a>
                     <a class="nav-link" href="#">

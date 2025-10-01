@@ -41,7 +41,7 @@
                             <div class="sb-nav-link-icon"><i class="bi bi-cart3"></i></div>
                             Đơn hàng
                         </a>
-                        <a class="nav-link" href="#!">
+                        <a class="nav-link" href="/admin/vouchers">
                             <div class="sb-nav-link-icon"><i class="bi bi-ticket-perforated"></i></div>
                             Khuyến mãi
                         </a>

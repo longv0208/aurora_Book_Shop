@@ -31,6 +31,9 @@
                     <a class="nav-link" href="#">
                         <div class="sb-nav-link-icon"><i class="bi bi-cart3"></i></div>Đơn hàng
                     </a>
+                    <a class="nav-link" href="#">
+                        <div class="sb-nav-link-icon"><i class="bi bi-ticket-perforated"></i></div>Khuyến mãi
+                    </a>
                     <a class="nav-link" href="<c:url value='/admin/users'/>">
                         <div class="sb-nav-link-icon"><i class="bi bi-people"></i></div>Tài khoản
                     </a>
