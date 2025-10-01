@@ -66,9 +66,9 @@
                                     
                                     <select name="role" class="form-select" style="width: auto;">
                                         <option value="" ${role == '' ? 'selected' : ''}>Tất cả vai trò</option>
-                                        <option value="Customer" ${role == 'Customer' ? 'selected' : ''}>Khách hàng</option>
-                                        <option value="Shop Owner" ${role == 'Shop Owner' ? 'selected' : ''}>Chủ shop</option>
-                                        <option value="Admin" ${role == 'Admin' ? 'selected' : ''}>Quản trị viên</option>
+                                        <option value="CUSTOMER" ${role == 'CUSTOMER' ? 'selected' : ''}>Khách hàng</option>
+                                        <option value="SHOP_OWNER" ${role == 'SHOP_OWNER' ? 'selected' : ''}>Chủ shop</option>
+                                        <option value="ADMIN" ${role == 'ADMIN' ? 'selected' : ''}>Quản trị viên</option>
                                     </select>
                                 </form>
                             </div>

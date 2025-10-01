@@ -244,7 +244,7 @@ public class UserDAO {
         // Role filter
         if (!role.isEmpty()) {
             sqlBuilder.append(hasWhere ? "AND " : "WHERE ");
-            sqlBuilder.append("r.RoleName = ? ");
+            sqlBuilder.append("r.RoleCode = ? ");
         }
         
         // Add order by and pagination
@@ -340,7 +340,7 @@ public class UserDAO {
         // Role filter
         if (!role.isEmpty()) {
             sqlBuilder.append(hasWhere ? "AND " : "WHERE ");
-            sqlBuilder.append("r.RoleName = ? ");
+            sqlBuilder.append("r.RoleCode = ? ");
         }
                 
         try (Connection conn = DataSourceProvider.get().getConnection();
