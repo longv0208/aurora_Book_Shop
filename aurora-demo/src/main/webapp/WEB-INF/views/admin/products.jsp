@@ -1,11 +1,12 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý cửa hàng - Aurora Admin</title>
+    <title>Quản lý sản phẩm - Aurora Admin</title>
     <jsp:include page="/WEB-INF/views/layouts/_head.jsp" />
 </head>
 <body class="sb-nav-fixed">
@@ -21,10 +22,10 @@
                         <div class="sb-nav-link-icon"><i class="bi bi-speedometer2"></i></div>Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">Quản lý</div>
-                    <a class="nav-link active" href="<c:url value='/admin/shops'/>">
+                    <a class="nav-link" href="<c:url value='/admin/shops'/>">
                         <div class="sb-nav-link-icon"><i class="bi bi-shop"></i></div>Quản lý cửa hàng
                     </a>
-                    <a class="nav-link" href="<c:url value='/admin/products'/>">
+                    <a class="nav-link active" href="<c:url value='/admin/products'/>">
                         <div class="sb-nav-link-icon"><i class="bi bi-box-seam"></i></div>Sản phẩm
                     </a>
                     <a class="nav-link" href="#">
@@ -49,32 +50,19 @@
         <main>
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="mt-4">Quản lý cửa hàng</h1>
+                    <h1 class="mt-4">Quản lý sản phẩm</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<c:url value='/'/>">Trang chủ</a></li>
                             <li class="breadcrumb-item"><a href="<c:url value='/admin/dashboard'/>">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Cửa hàng</li>
+                            <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
                         </ol>
                     </nav>
                 </div>
 
                 <form class="card mt-4 mb-3" method="get">
                     <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
-                        <div class="input-group" style="max-width: 360px;">
-                            <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input class="form-control" type="text" name="q" value="${q}" placeholder="Tìm kiếm tên cửa hàng, email">
-                        </div>
                         <div class="d-flex align-items-center gap-2">
-                            <select class="form-select" name="status" style="min-width: 180px;">
-                                <option value="">Tất cả trạng thái</option>
-                                <c:forEach items="${statuses}" var="st">
-                                    <c:choose>
-                                        <c:when test="${st == status}"><option value="${st}" selected="selected">${st}</option></c:when>
-                                        <c:otherwise><option value="${st}">${st}</option></c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </select>
                             <select class="form-select" name="pageSize" style="width: 120px;">
                                 <c:choose>
                                     <c:when test="${pageSize==10}"><option value="10" selected="selected">10</option></c:when>
@@ -100,88 +88,91 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Logo</th>
-                                <th>Tên cửa hàng</th>
-                                <th>Chủ sở hữu</th>
-                                <th>Email</th>
-                                <th>Đánh giá</th>
-                                <th>Sản phẩm</th>
-                                <th>Trạng thái</th>
-                                <th>Ngày tạo</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Nhà xuất bản</th>
+                                <th>Giá gốc</th>
+                                <th>Giá bán</th>
+                                <th>Đã bán</th>
+                                <th>Tồn kho</th>
+                                <th>Shop</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${shops}" var="shop">
+                            <c:forEach items="${products}" var="product">
                                 <tr>
-                                    <td>${shop.shopId}</td>
+                                    <td>${product.productId}</td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${not empty shop.avatarUrl}">
-                                                <img src="${shop.avatarUrl}" alt="Logo" style="width:40px;height:40px;object-fit:cover;border-radius:4px;">
+                                            <c:when test="${not empty product.primaryImageUrl}">
+                                                <img src="http://localhost:8080/assets/images/catalog/thumbnails/${product.primaryImageUrl}" 
+                                                     alt="${product.title}" 
+                                                     style="width:50px;height:50px;object-fit:cover;border-radius:4px;">
                                             </c:when>
                                             <c:otherwise>
-                                                <div style="width:40px;height:40px;background:#ddd;border-radius:4px;display:flex;align-items:center;justify-content:center;">
-                                                    <i class="bi bi-shop"></i>
+                                                <div style="width:50px;height:50px;background:#ddd;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                                                    <i class="bi bi-book"></i>
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td>
-                                        <strong>${shop.name}</strong>
-                                        <c:if test="${not empty shop.description}">
-                                            <div class="text-muted small">${shop.description}</div>
-                                        </c:if>
-                                    </td>
-                                    <td>
-                                        <c:if test="${not empty shop.ownerName}">
-                                            ${shop.ownerName}
-                                            <div class="text-muted small">ID: ${shop.ownerUserId}</div>
+                                        <strong>${product.title}</strong>
+                                        <c:if test="${not empty product.authors}">
+                                            <div class="text-muted small">
+                                                <i class="bi bi-person"></i>
+                                                <c:forEach items="${product.authors}" var="author" varStatus="status">
+                                                    ${author.authorName}<c:if test="${!status.last}">, </c:if>
+                                                </c:forEach>
+                                            </div>
                                         </c:if>
                                     </td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${not empty shop.ownerEmail}">
-                                                <small>${shop.ownerEmail}</small>
+                                            <c:when test="${not empty product.publisher}">
+                                                <small>${product.publisher.publisherName}</small>
                                             </c:when>
                                             <c:otherwise>
-                                                <small class="text-muted">${shop.invoiceEmail}</small>
+                                                <small class="text-muted">-</small>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td>
-                                        <span class="badge bg-warning text-dark">
-                                            <i class="bi bi-star-fill"></i> ${shop.ratingAvg}
-                                        </span>
+                                        <fmt:formatNumber value="${product.originalPrice}" type="number" groupingUsed="true"/>đ
                                     </td>
                                     <td>
-                                        <span class="badge bg-info text-dark">${shop.productCount}</span>
+                                        <strong class="text-danger">
+                                            <fmt:formatNumber value="${product.salePrice}" type="number" groupingUsed="true"/>đ
+                                        </strong>
+                                        <c:if test="${product.salePrice < product.originalPrice}">
+                                            <div class="badge bg-danger">
+                                                -<fmt:formatNumber value="${((product.originalPrice - product.salePrice) / product.originalPrice) * 100}" maxFractionDigits="0"/>%
+                                            </div>
+                                        </c:if>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">${product.soldCount}</span>
                                     </td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${shop.status == 'APPROVED'}">
-                                                <span class="badge bg-success">${shop.status}</span>
+                                            <c:when test="${product.stock > 50}">
+                                                <span class="badge bg-success">${product.stock}</span>
                                             </c:when>
-                                            <c:when test="${shop.status == 'PENDING'}">
-                                                <span class="badge bg-warning text-dark">${shop.status}</span>
-                                            </c:when>
-                                            <c:when test="${shop.status == 'SUSPENDED'}">
-                                                <span class="badge bg-danger">${shop.status}</span>
-                                            </c:when>
-                                            <c:when test="${shop.status == 'BANNED'}">
-                                                <span class="badge bg-dark">${shop.status}</span>
+                                            <c:when test="${product.stock > 10}">
+                                                <span class="badge bg-warning text-dark">${product.stock}</span>
                                             </c:when>
                                             <c:otherwise>
-                                                <span class="badge bg-secondary">${shop.status}</span>
+                                                <span class="badge bg-danger">${product.stock}</span>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td>
-                                        <small>${shop.createdAt}</small>
+                                        <small class="text-muted">ID: ${product.shopId}</small>
                                     </td>
                                     <td>
-                                        <c:url var="detailUrl" value="/admin/shops/detail">
-                                            <c:param name="id" value="${shop.shopId}" />
+                                        <c:url var="detailUrl" value="/admin/products/detail">
+                                            <c:param name="id" value="${product.productId}" />
                                         </c:url>
                                         <a class="btn btn-sm btn-outline-primary" href="${detailUrl}" title="Xem chi tiết">
                                             <i class="bi bi-eye"></i>
@@ -189,11 +180,11 @@
                                     </td>
                                 </tr>
                             </c:forEach>
-                            <c:if test="${empty shops}">
+                            <c:if test="${empty products}">
                                 <tr>
                                     <td colspan="10" class="text-center text-muted py-4">
                                         <i class="bi bi-inbox" style="font-size: 2rem;"></i>
-                                        <div class="mt-2">Không tìm thấy cửa hàng nào</div>
+                                        <div class="mt-2">Không tìm thấy sản phẩm nào</div>
                                     </td>
                                 </tr>
                             </c:if>
@@ -207,20 +198,20 @@
                     <nav aria-label="pagination" class="mt-3">
                         <ul class="pagination">
                             <li class="page-item ${page==1?'disabled':''}">
-                                <a class="page-link" href="?q=${q}&status=${status}&page=${page-1}&pageSize=${pageSize}">«</a>
+                                <a class="page-link" href="?page=${page-1}&pageSize=${pageSize}">«</a>
                             </li>
                             <c:forEach var="p" begin="1" end="${totalPages}">
                                 <li class="page-item ${p==page?'active':''}">
-                                    <a class="page-link" href="?q=${q}&status=${status}&page=${p}&pageSize=${pageSize}">${p}</a>
+                                    <a class="page-link" href="?page=${p}&pageSize=${pageSize}">${p}</a>
                                 </li>
                             </c:forEach>
                             <li class="page-item ${page>=totalPages?'disabled':''}">
-                                <a class="page-link" href="?q=${q}&status=${status}&page=${page+1}&pageSize=${pageSize}">»</a>
+                                <a class="page-link" href="?page=${page+1}&pageSize=${pageSize}">»</a>
                             </li>
                         </ul>
                     </nav>
                     <div class="text-muted text-center mb-4">
-                        Hiển thị ${(page-1)*pageSize + 1} - ${page*pageSize > total ? total : page*pageSize} trong tổng số ${total} cửa hàng
+                        Hiển thị ${(page-1)*pageSize + 1} - ${page*pageSize > total ? total : page*pageSize} trong tổng số ${total} sản phẩm
                     </div>
                 </c:if>
             </div>

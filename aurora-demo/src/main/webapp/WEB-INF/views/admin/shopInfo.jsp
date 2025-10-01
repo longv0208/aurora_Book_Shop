@@ -24,7 +24,7 @@
                     <a class="nav-link active" href="<c:url value='/admin/shops'/>">
                         <div class="sb-nav-link-icon"><i class="bi bi-shop"></i></div>Quản lý cửa hàng
                     </a>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="<c:url value='/admin/products'/>">
                         <div class="sb-nav-link-icon"><i class="bi bi-box-seam"></i></div>Sản phẩm
                     </a>
                     <a class="nav-link" href="#">
