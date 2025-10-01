@@ -142,26 +142,22 @@ public class ShopManagementServlet extends HttpServlet {
         String description = param(req, "description");
         String status = param(req, "status");
         String invoiceEmail = param(req, "invoiceEmail");
-        
-        // Handle avatar upload
-        String avatarUrl = null;
+
+        // Update basic information
+        dao.update(id, name, description, status, invoiceEmail);
+
+        // Handle avatar upload if present
         Part avatarPart = req.getPart("avatar");
         if (avatarPart != null && avatarPart.getSize() > 0) {
-            avatarUrl = saveUploadedFile(avatarPart, req);
+            String avatarUrl = saveUploadedFile(avatarPart, req);
+            if (avatarUrl != null) {
+                dao.updateAvatar(id, avatarUrl);
+            }
         }
 
-        // Update shop information
-        int updated = dao.update(id, name, description, status, invoiceEmail, avatarUrl);
-        
-        if (updated > 0) {
-            req.getSession().setAttribute("successMessage", "Cập nhật thông tin cửa hàng thành công!");
-        } else {
-            req.getSession().setAttribute("errorMessage", "Không thể cập nhật thông tin cửa hàng!");
-        }
-        
         resp.sendRedirect(req.getContextPath() + "/admin/shops/detail?id=" + id);
     }
-    
+
     /**
      * Save uploaded file and return the URL/path
      */
@@ -170,7 +166,7 @@ public class ShopManagementServlet extends HttpServlet {
         if (fileName == null || fileName.isEmpty()) {
             return null;
         }
-        
+
         // Generate unique filename
         String fileExtension = "";
         int dotIndex = fileName.lastIndexOf('.');
@@ -178,24 +174,24 @@ public class ShopManagementServlet extends HttpServlet {
             fileExtension = fileName.substring(dotIndex);
         }
         String uniqueFileName = "shop_" + UUID.randomUUID().toString() + fileExtension;
-        
+
         // Get upload directory path
         String uploadPath = req.getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "images" + File.separator + "shops";
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
-        
+
         // Save file
         Path filePath = Paths.get(uploadPath, uniqueFileName);
         try (InputStream input = filePart.getInputStream()) {
             Files.copy(input, filePath, StandardCopyOption.REPLACE_EXISTING);
         }
-        
+
         // Return relative URL
         return req.getContextPath() + "/assets/images/shops/" + uniqueFileName;
     }
-    
+
     /**
      * Extract filename from Part
      */

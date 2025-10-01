@@ -66,22 +66,6 @@
                     </a>
                 </div>
 
-                <!-- Success/Error Messages -->
-                <c:if test="${not empty sessionScope.successMessage}">
-                    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                        <i class="bi bi-check-circle me-2"></i>${sessionScope.successMessage}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <c:remove var="successMessage" scope="session" />
-                </c:if>
-                <c:if test="${not empty sessionScope.errorMessage}">
-                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                        <i class="bi bi-x-circle me-2"></i>${sessionScope.errorMessage}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <c:remove var="errorMessage" scope="session" />
-                </c:if>
-
                 <div class="card mt-4 mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span><i class="bi bi-info-circle me-1"></i>Thông tin cửa hàng</span>
@@ -102,25 +86,25 @@
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
-                                        <div class="mt-2">
-                                            <span class="badge bg-warning text-dark me-2">
-                                                <i class="bi bi-star-fill"></i> Đánh giá: ${shop.ratingAvg}
-                                            </span>
-                                            <span class="badge bg-info text-dark">
-                                                <i class="bi bi-box-seam"></i> ${shop.productCount} sản phẩm
-                                            </span>
-                                        </div>
-                                        <div class="mt-3">
-                                            <label for="shopLogoInput" class="btn btn-sm btn-outline-primary">
-                                                <i class="bi bi-upload me-1"></i>Tải lên logo mới
-                                            </label>
-                                            <input type="file" class="d-none" id="shopLogoInput" name="avatar" accept="image/*">
-                                            <div class="mt-2">
-                                                <small class="text-muted">Định dạng: JPG, PNG, GIF. Kích thước tối đa: 5MB</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                         <div class="mt-2">
+                                             <span class="badge bg-warning text-dark me-2">
+                                                 <i class="bi bi-star-fill"></i> Đánh giá: ${shop.ratingAvg}
+                                             </span>
+                                             <span class="badge bg-info text-dark">
+                                                 <i class="bi bi-box-seam"></i> ${shop.productCount} sản phẩm
+                                             </span>
+                                         </div>
+                                         <div class="mt-3">
+                                             <label for="shopAvatarInput" class="btn btn-sm btn-outline-primary">
+                                                 <i class="bi bi-upload me-1"></i>Tải lên logo mới
+                                             </label>
+                                             <input type="file" class="d-none" id="shopAvatarInput" name="avatar" accept="image/*">
+                                             <div class="mt-2">
+                                                 <small class="text-muted">Định dạng: JPG, PNG, GIF. Kích thước tối đa: 5MB</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
                                 <div class="col-md-8">
                                     <label class="form-label">Tên cửa hàng</label>
                                     <input type="text" class="form-control" id="shopName" name="name" required value="<c:out value='${shop.name}'/>">

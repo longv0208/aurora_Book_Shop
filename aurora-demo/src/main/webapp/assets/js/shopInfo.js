@@ -10,35 +10,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // Form elements
     const shopInfoForm = document.getElementById('shopInfoForm');
-    const shopLogoInput = document.getElementById('shopLogoInput');
+    const shopAvatarInput = document.getElementById('shopAvatarInput');
     const shopLogoPreview = document.getElementById('shopLogoPreview');
-    const uploadLogoBtn = document.getElementById('uploadLogoBtn');
     const provinceSelect = document.getElementById('shopProvince');
     const districtSelect = document.getElementById('shopDistrict');
 
-    // Logo upload functionality
-    if (uploadLogoBtn) {
-        uploadLogoBtn.addEventListener('click', function() {
-            shopLogoInput.click();
-        });
-    }
-
-    // Handle logo file selection
-    if (shopLogoInput) {
-        shopLogoInput.addEventListener('change', function(e) {
+    // Handle avatar file selection
+    if (shopAvatarInput) {
+        shopAvatarInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 // Validate file size (5MB max)
                 if (file.size > 5 * 1024 * 1024) {
                     showAlert('Kích thước file không được vượt quá 5MB', 'danger');
-                    shopLogoInput.value = '';
+                    this.value = '';
                     return;
                 }
 
                 // Validate file type
                 if (!file.type.startsWith('image/')) {
                     showAlert('Vui lòng chọn file hình ảnh', 'danger');
-                    shopLogoInput.value = '';
+                    this.value = '';
                     return;
                 }
 
@@ -48,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     shopLogoPreview.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
+                
+                showAlert('Ảnh đã được chọn. Nhấn "Lưu thay đổi" để cập nhật.', 'info');
             }
         });
     }
@@ -60,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Form submission
+    // Form submission - Let it submit normally to server
     if (shopInfoForm) {
         shopInfoForm.addEventListener('submit', function(e) {
             // Validate form
@@ -75,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Đang lưu...';
             submitBtn.disabled = true;
             
-            // Allow form to submit normally for file upload
+            // Form will submit normally to server
         });
     }
 

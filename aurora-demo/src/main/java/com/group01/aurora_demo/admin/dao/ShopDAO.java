@@ -129,30 +129,14 @@ public class ShopDAO {
     }
 
     /**
-     * Update shop information with avatar
+     * Update shop avatar
      */
-    public int update(long id, String name, String description, String status, String invoiceEmail, String avatarUrl) throws SQLException {
-        String sql;
-        if (avatarUrl != null && !avatarUrl.isEmpty()) {
-            sql = "UPDATE Shops SET Name=?, Description=?, Status=?, InvoiceEmail=?, AvatarUrl=? WHERE ShopID=?";
-        } else {
-            sql = "UPDATE Shops SET Name=?, Description=?, Status=?, InvoiceEmail=? WHERE ShopID=?";
-        }
-        
+    public int updateAvatar(long id, String avatarUrl) throws SQLException {
+        String sql = "UPDATE Shops SET AvatarUrl=? WHERE ShopID=?";
         try (Connection cn = DataSourceProvider.get().getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
-            ps.setString(1, name);
-            ps.setString(2, description);
-            ps.setString(3, status);
-            ps.setString(4, invoiceEmail);
-            
-            if (avatarUrl != null && !avatarUrl.isEmpty()) {
-                ps.setString(5, avatarUrl);
-                ps.setLong(6, id);
-            } else {
-                ps.setLong(5, id);
-            }
-            
+            ps.setString(1, avatarUrl);
+            ps.setLong(2, id);
             return ps.executeUpdate();
         }
     }
