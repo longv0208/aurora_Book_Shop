@@ -62,6 +62,10 @@
 
                 <form class="card mt-4 mb-3" method="get">
                     <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="input-group" style="max-width: 360px;">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input class="form-control" type="text" name="q" value="${q}" placeholder="Tìm kiếm tên sản phẩm, tác giả...">
+                        </div>
                         <div class="d-flex align-items-center gap-2">
                             <select class="form-select" name="pageSize" style="width: 120px;">
                                 <c:choose>
@@ -77,7 +81,7 @@
                                     <c:otherwise><option value="50">50</option></c:otherwise>
                                 </c:choose>
                             </select>
-                            <button class="btn btn-primary"><i class="bi bi-funnel me-1"></i>Lọc</button>
+                            <button class="btn btn-primary"><i class="bi bi-search me-1"></i>Tìm kiếm</button>
                         </div>
                     </div>
                 </form>
@@ -198,20 +202,28 @@
                     <nav aria-label="pagination" class="mt-3">
                         <ul class="pagination">
                             <li class="page-item ${page==1?'disabled':''}">
-                                <a class="page-link" href="?page=${page-1}&pageSize=${pageSize}">«</a>
+                                <a class="page-link" href="?q=${q}&page=${page-1}&pageSize=${pageSize}">«</a>
                             </li>
                             <c:forEach var="p" begin="1" end="${totalPages}">
                                 <li class="page-item ${p==page?'active':''}">
-                                    <a class="page-link" href="?page=${p}&pageSize=${pageSize}">${p}</a>
+                                    <a class="page-link" href="?q=${q}&page=${p}&pageSize=${pageSize}">${p}</a>
                                 </li>
                             </c:forEach>
                             <li class="page-item ${page>=totalPages?'disabled':''}">
-                                <a class="page-link" href="?page=${page+1}&pageSize=${pageSize}">»</a>
+                                <a class="page-link" href="?q=${q}&page=${page+1}&pageSize=${pageSize}">»</a>
                             </li>
                         </ul>
                     </nav>
                     <div class="text-muted text-center mb-4">
-                        Hiển thị ${(page-1)*pageSize + 1} - ${page*pageSize > total ? total : page*pageSize} trong tổng số ${total} sản phẩm
+                        <c:choose>
+                            <c:when test="${not empty q}">
+                                Tìm thấy ${total} sản phẩm cho từ khóa "<strong>${q}</strong>". 
+                                Hiển thị ${(page-1)*pageSize + 1} - ${page*pageSize > total ? total : page*pageSize}
+                            </c:when>
+                            <c:otherwise>
+                                Hiển thị ${(page-1)*pageSize + 1} - ${page*pageSize > total ? total : page*pageSize} trong tổng số ${total} sản phẩm
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </c:if>
             </div>

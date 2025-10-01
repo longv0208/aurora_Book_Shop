@@ -46,23 +46,33 @@ public class ProductManagementServlet extends HttpServlet {
     }
 
     /**
-     * Show list of products with pagination
+     * Show list of products with pagination and search
      */
     private void showList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String searchKeyword = param(req, "q");
         int page = parseInt(req.getParameter("page"), 1);
         int pageSize = parseInt(req.getParameter("pageSize"), 10);
 
-        // Get total count for pagination
-        int totalProducts = productDAO.countProducts();
+        // Fetch products based on search keyword
+        List<Product> products;
+        int totalProducts;
         
-        // Fetch products for the current page
-        List<Product> products = productDAO.getProductsByPage(page, pageSize);
+        if (searchKeyword.isEmpty()) {
+            // No search - get all products
+            products = productDAO.getProductsByPage(page, pageSize);
+            totalProducts = productDAO.countProducts();
+        } else {
+            // Search by keyword
+            products = productDAO.searchProducts(searchKeyword, page, pageSize);
+            totalProducts = productDAO.countSearchResults(searchKeyword);
+        }
 
         // Set attributes for JSP
         req.setAttribute("products", products);
         req.setAttribute("page", page);
         req.setAttribute("pageSize", pageSize);
         req.setAttribute("total", totalProducts);
+        req.setAttribute("q", searchKeyword);
 
         req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
     }
